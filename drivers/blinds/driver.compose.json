@@ -1,11 +1,11 @@
 {
   "name": {
-    "en": "light"
+    "en": "blinds"
   },
-  "class": "light",
+  "class": "blinds",
   "capabilities": [
-    "onoff",
-    "dim"
+    "measure_battery",
+    "windowcoverings_set"
   ],
   "pair": [
     {
@@ -20,9 +20,16 @@
       "template": "add_devices"
     }
   ],
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [],
   "images": {
     "small": "{{driverAssetsPath}}/images/small.png",
     "large": "{{driverAssetsPath}}/images/large.png",
     "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "energy": {
+    "batteries": ["OTHER"]
   }
 }

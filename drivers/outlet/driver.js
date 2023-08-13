@@ -4,8 +4,11 @@ const { Driver } = require('homey');
 
 class MyDriver extends Driver {
 
+  /**
+   * onInit is called when the driver is initialized.
+   */
   async onInit() {
-    this.log('Tradfri Light Driver has been initialized');
+    this.log('Outlet has been initialized');
   }
 
   updateCapabilities(tradfriDevice) {
@@ -19,21 +22,18 @@ class MyDriver extends Driver {
   async onPairListDevices() {
     await this.homey.app.connect();
     const devices = [];
-    const lights = await this.homey.app.getLights();
-    for (const light of lights) {
+    const outlets = await this.homey.app.getOutlets();
+    for (const outlet of outlets) {
       const capabilities = [];
-      if (light.capabilities.canReceive.includes('isOn')) {
+      if (outlet.capabilities.canReceive.includes('isOn')) {
         capabilities.push('onoff');
-      }
-      if (light.capabilities.canReceive.includes('lightLevel')) {
-        capabilities.push('dim');
       }
       devices.push({
         data: {
-          id: light.id,
+          id: outlet.id,
         },
         capabilities,
-        name: (light['attributes'].customName !== '' ? light['attributes'].customName : light['attributes'].model),
+        name: (outlet['attributes'].customName !== '' ? outlet['attributes'].customName : outlet['attributes'].model),
       });
     }
     return devices.sort(MyDriver._compareHomeyDevice);

@@ -29,15 +29,50 @@
   "drivers": [
     {
       "name": {
+        "en": "blinds"
+      },
+      "class": "blinds",
+      "capabilities": [
+        "measure_battery",
+        "windowcoverings_set"
+      ],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [],
+      "images": {
+        "small": "/drivers/blinds/assets/images/small.png",
+        "large": "/drivers/blinds/assets/images/large.png",
+        "xlarge": "/drivers/blinds/assets/images/xlarge.png"
+      },
+      "energy": {
+        "batteries": [
+          "OTHER"
+        ]
+      },
+      "id": "blinds"
+    },
+    {
+      "name": {
         "en": "light"
       },
       "class": "light",
       "capabilities": [
         "onoff",
-        "dim",
-        "light_temperature",
-        "light_hue",
-        "light_saturation"
+        "dim"
       ],
       "pair": [
         {
@@ -58,6 +93,38 @@
         "xlarge": "/drivers/light/assets/images/xlarge.png"
       },
       "id": "light"
+    },
+    {
+      "name": {
+        "en": "outlet"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "connectivity": [],
+      "images": {
+        "small": "/drivers/outlet/assets/images/small.png",
+        "large": "/drivers/outlet/assets/images/large.png",
+        "xlarge": "/drivers/outlet/assets/images/xlarge.png"
+      },
+      "id": "outlet"
     }
   ]
 }
