@@ -26,10 +26,17 @@
     "name": "Vladimir Lazarenko",
     "email": "vlad@lazarenko.net"
   },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Stuart Pearson"
+      }
+    ]
+  },
   "drivers": [
     {
       "name": {
-        "en": "blind"
+        "en": "Blind"
       },
       "class": "blinds",
       "capabilities": [
@@ -52,7 +59,9 @@
       "platforms": [
         "local"
       ],
-      "connectivity": [],
+      "connectivity": [
+        "lan"
+      ],
       "images": {
         "small": "/drivers/blind/assets/images/small.png",
         "large": "/drivers/blind/assets/images/large.png",
@@ -67,7 +76,7 @@
     },
     {
       "name": {
-        "en": "light"
+        "en": "Outlet"
       },
       "class": "light",
       "capabilities": [
@@ -100,11 +109,14 @@
         "large": "/drivers/light/assets/images/large.png",
         "xlarge": "/drivers/light/assets/images/xlarge.png"
       },
+      "connectivity": [
+        "lan"
+      ],
       "id": "light"
     },
     {
       "name": {
-        "en": "outlet"
+        "en": "Outlet"
       },
       "class": "socket",
       "capabilities": [
@@ -126,7 +138,9 @@
           "template": "add_devices"
         }
       ],
-      "connectivity": [],
+      "connectivity": [
+        "lan"
+      ],
       "images": {
         "small": "/drivers/outlet/assets/images/small.png",
         "large": "/drivers/outlet/assets/images/large.png",

@@ -48,7 +48,7 @@ class Light extends Homey.Device {
   }
 
   async onExternalUpdate(newstate) {
-    if (newstate.isOn || !newstate.isOn) {
+    if (newstate.isOn === true || newstate.isOn === false) {
       this.setCapabilityValue('onoff', newstate.isOn)
         .catch(this.error);
     }
