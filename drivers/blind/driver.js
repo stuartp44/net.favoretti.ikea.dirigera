@@ -2,7 +2,7 @@
 
 const { Driver } = require('homey');
 
-class Blind extends Driver {
+class BlindDriver extends Driver {
 
   /**
    * onInit is called when the driver is initialized.
@@ -39,7 +39,7 @@ class Blind extends Driver {
         name: (blind['attributes'].customName !== '' ? blind['attributes'].customName : blind['attributes'].model),
       });
     }
-    return devices.sort(Blind._compareHomeyDevice);
+    return devices.sort(BlindDriver._compareHomeyDevice);
   }
 
   static _compareHomeyDevice(a, b) {
@@ -54,4 +54,4 @@ class Blind extends Driver {
 
 }
 
-module.exports = Blind;
+module.exports = BlindDriver;

@@ -33,6 +33,9 @@ class IkeaDirigeraGatewayApp extends Homey.App {
         if (updateEvent.data.deviceType === 'blinds') {
           await this.updateBlindState(updateEvent.data.id, updateEvent.data.attributes);
         }
+        if (updateEvent.data.deviceType === 'light') {
+          await this.updateLightState(updateEvent.data.id, updateEvent.data.attributes);
+        }
       }
     });
 
@@ -82,7 +85,7 @@ class IkeaDirigeraGatewayApp extends Homey.App {
   }
 
   async updateBlindState(id, state) {
-    const device = this.homey.drivers.getDriver('blinds').getDevice({ id: `${id}` });
+    const device = this.homey.drivers.getDriver('blind').getDevice({ id: `${id}` });
     if (device) {
       device.onExternalUpdate(state);
     }
@@ -105,6 +108,13 @@ class IkeaDirigeraGatewayApp extends Homey.App {
       response = this.homey.app.setLightState(details);
     }
     return response;
+  }
+
+  async updateLightState(id, state) {
+    const device = this.homey.drivers.getDriver('light').getDevice({ id: `${id}` });
+    if (device) {
+      device.onExternalUpdate(state);
+    }
   }
 
   async setLightState(details) {

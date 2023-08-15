@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "light"
+    "en": "Outlet"
   },
   "class": "light",
   "capabilities": [
@@ -32,5 +32,8 @@
     "small": "{{driverAssetsPath}}/images/small.png",
     "large": "{{driverAssetsPath}}/images/large.png",
     "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
-  }
+  },
+  "connectivity": [
+    "lan"
+  ]
 }

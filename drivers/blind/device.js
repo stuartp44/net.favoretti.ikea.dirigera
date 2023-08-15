@@ -41,10 +41,6 @@ class Blind extends Device {
         this.setCapabilityValue('windowcoverings_set', blindDevice.attributes.blindsCurrentLevel)
           .catch(this.error);
       }
-      if (this.hasCapability('windowcoverings_set')) {
-        this.setCapabilityValue('windowcoverings_set', blindDevice.attributes.blindsCurrentLevel)
-          .catch(this.error);
-      }
     }
   }
 

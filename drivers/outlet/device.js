@@ -2,7 +2,7 @@
 
 const { Device } = require('homey');
 
-class MyDevice extends Device {
+class Outlet extends Device {
 
   /**
    * onInit is called when the device is initialized.
@@ -75,4 +75,4 @@ class MyDevice extends Device {
 
 }
 
-module.exports = MyDevice;
+module.exports = Outlet;

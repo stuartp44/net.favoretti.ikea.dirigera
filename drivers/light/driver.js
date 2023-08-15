@@ -2,7 +2,7 @@
 
 const { Driver } = require('homey');
 
-class MyDriver extends Driver {
+class LightDriver extends Driver {
 
   async onInit() {
     this.log('Tradfri Light Driver has been initialized');
@@ -42,7 +42,7 @@ class MyDriver extends Driver {
         name: (light['attributes'].customName !== '' ? light['attributes'].customName : light['attributes'].model),
       });
     }
-    return devices.sort(MyDriver._compareHomeyDevice);
+    return devices.sort(LightDriver._compareHomeyDevice);
   }
 
   static _compareHomeyDevice(a, b) {
@@ -57,4 +57,4 @@ class MyDriver extends Driver {
 
 }
 
-module.exports = MyDriver;
+module.exports = LightDriver;

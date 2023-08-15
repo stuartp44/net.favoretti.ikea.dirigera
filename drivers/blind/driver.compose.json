@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "blinds"
+    "en": "Blind"
   },
   "class": "blinds",
   "capabilities": [
@@ -23,7 +23,9 @@
   "platforms": [
     "local"
   ],
-  "connectivity": [],
+  "connectivity": [
+    "lan"
+  ],
   "images": {
     "small": "{{driverAssetsPath}}/images/small.png",
     "large": "{{driverAssetsPath}}/images/large.png",

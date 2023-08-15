@@ -4,7 +4,7 @@ const Homey = require('homey');
 
 const CAPABILITIES_SET_DEBOUNCE = 100;
 
-class MyDevice extends Homey.Device {
+class Light extends Homey.Device {
 
   async onInit() {
     this._tradfriInstanceId = this.getData().id;
@@ -47,6 +47,27 @@ class MyDevice extends Homey.Device {
     }
   }
 
+  async onExternalUpdate(newstate) {
+    if (newstate.isOn || !newstate.isOn) {
+      this.setCapabilityValue('onoff', newstate.isOn)
+        .catch(this.error);
+    }
+    if (newstate.lightLevel) {
+      this.setCapabilityValue('dim', newstate.lightLevel / 100)
+        .catch(this.error);
+    }
+    if (newstate.colorTemperature) {
+      this.setCapabilityValue('light_temperature', newstate.colorTemperature / 100)
+        .catch(this.error);
+    }
+    if (newstate.colorHue && newstate.colorSaturation) {
+      this.setCapabilityValue('light_hue', newstate.colorHue / 360)
+        .catch(this.error);
+      this.setCapabilityValue('light_saturation', newstate.colorSaturation / 100)
+        .catch(this.error);
+    }
+  }
+
   async _onMultipleCapabilityListener(valueObj) {
     const commands = {};
     commands['id'] = this._tradfriInstanceId;
@@ -69,4 +90,4 @@ class MyDevice extends Homey.Device {
 
 }
 
-module.exports = MyDevice;
+module.exports = Light;

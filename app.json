@@ -29,7 +29,7 @@
   "drivers": [
     {
       "name": {
-        "en": "blinds"
+        "en": "blind"
       },
       "class": "blinds",
       "capabilities": [
@@ -54,16 +54,16 @@
       ],
       "connectivity": [],
       "images": {
-        "small": "/drivers/blinds/assets/images/small.png",
-        "large": "/drivers/blinds/assets/images/large.png",
-        "xlarge": "/drivers/blinds/assets/images/xlarge.png"
+        "small": "/drivers/blind/assets/images/small.png",
+        "large": "/drivers/blind/assets/images/large.png",
+        "xlarge": "/drivers/blind/assets/images/xlarge.png"
       },
       "energy": {
         "batteries": [
           "OTHER"
         ]
       },
-      "id": "blinds"
+      "id": "blind"
     },
     {
       "name": {

@@ -2,7 +2,7 @@
 
 const { Driver } = require('homey');
 
-class MyDriver extends Driver {
+class OutletDriver extends Driver {
 
   /**
    * onInit is called when the driver is initialized.
@@ -36,7 +36,7 @@ class MyDriver extends Driver {
         name: (outlet['attributes'].customName !== '' ? outlet['attributes'].customName : outlet['attributes'].model),
       });
     }
-    return devices.sort(MyDriver._compareHomeyDevice);
+    return devices.sort(OutletDriver._compareHomeyDevice);
   }
 
   static _compareHomeyDevice(a, b) {
@@ -51,4 +51,4 @@ class MyDriver extends Driver {
 
 }
 
-module.exports = MyDriver;
+module.exports = OutletDriver;

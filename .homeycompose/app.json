@@ -24,5 +24,12 @@
   "author": {
     "name": "Vladimir Lazarenko",
     "email": "vlad@lazarenko.net"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Stuart Pearson"
+      }
+    ]
   }
 }

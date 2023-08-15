@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "outlet"
+    "en": "Outlet"
   },
   "class": "socket",
   "capabilities": [
@@ -22,7 +22,9 @@
       "template": "add_devices"
     }
   ],
-  "connectivity": [],
+  "connectivity": [
+    "lan"
+  ],
   "images": {
     "small": "{{driverAssetsPath}}/images/small.png",
     "large": "{{driverAssetsPath}}/images/large.png",
