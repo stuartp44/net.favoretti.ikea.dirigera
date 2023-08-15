@@ -28,6 +28,12 @@ class MyDriver extends Driver {
       if (light.capabilities.canReceive.includes('lightLevel')) {
         capabilities.push('dim');
       }
+      if (light.capabilities.canReceive.includes('colorHue')) {
+        capabilities.push('light_hue');
+      }
+      if (light.capabilities.canReceive.includes('colorSaturation')) {
+        capabilities.push('light_saturation');
+      }
       devices.push({
         data: {
           id: light.id,

@@ -29,6 +29,11 @@ class IkeaDirigeraGatewayApp extends Homey.App {
 
     this._dirigera.startListeningForUpdates(async (updateEvent) => {
       this.log(JSON.stringify(updateEvent));
+      if (updateEvent.type === 'deviceStateChanged') {
+        if (updateEvent.data.deviceType === 'blinds') {
+          await this.updateBlindState(updateEvent.data.id, updateEvent.data.attributes);
+        }
+      }
     });
 
     this._gatewayConnected = true;
@@ -76,18 +81,53 @@ class IkeaDirigeraGatewayApp extends Homey.App {
     return this._blind;
   }
 
+  async updateBlindState(id, state) {
+    const device = this.homey.drivers.getDriver('blinds').getDevice({ id: `${id}` });
+    if (device) {
+      device.onExternalUpdate(state);
+    }
+  }
+
   async setTargetLevel(id, target) {
     this._blind = await this._dirigera.blinds.setTargetLevel({ id: `${id}`, blindsTargetLevel: target });
     return this._blind;
   }
 
-  async setLightState(id, state) {
-    this._light = await this._dirigera.lights.setIsOn({ id: `${id}`, isOn: state });
+  async operateLight(details) {
+    let response;
+    if (Object.keys(details).includes('colorHue') && Object.keys(details).includes('colorSaturation')) {
+      response = this.homey.app.setLightColour(details);
+    } if (Object.keys(details).includes('colorSaturation')) {
+      response = this.homey.app.setLightTemperature(details);
+    } if (Object.keys(details).includes('lightLevel')) {
+      response = this.homey.app.setLightLevel(details);
+    } if (Object.keys(details).includes('isOn')) {
+      response = this.homey.app.setLightState(details);
+    }
+    return response;
+  }
+
+  async setLightState(details) {
+    this.log(details);
+    this._light = await this._dirigera.lights.setIsOn(details);
     return this._light;
   }
 
-  async setLightLevel(id, level, duration) {
-    this._light = await this._dirigera.lights.setLightLevel({ id: `${id}`, lightLevel: level, duration });
+  async setLightLevel(details) {
+    this.log(details);
+    this._light = await this._dirigera.lights.setLightLevel(details);
+    return this._light;
+  }
+
+  async setLightColour(details) {
+    this.log(details);
+    this._light = await this._dirigera.lights.setLightColor(details);
+    return this._light;
+  }
+
+  async setLightTemperature(details) {
+    this.log(details);
+    this._light = await this._dirigera.lights.setLightColor(details);
     return this._light;
   }
 

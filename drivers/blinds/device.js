@@ -48,6 +48,14 @@ class Blind extends Device {
     }
   }
 
+  async onExternalUpdate(newstate) {
+    if (newstate.blindsCurrentLevel) {
+      this.log(`Setting blind to ${newstate.blindsCurrentLevel}`);
+      this.setCapabilityValue('windowcoverings_set', Math.floor(newstate.blindsCurrentLevel / 100))
+        .catch(this.error);
+    }
+  }
+
   async onAdded() {
     this.log('MyDevice has been added');
   }

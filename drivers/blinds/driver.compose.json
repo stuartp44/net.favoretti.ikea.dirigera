@@ -30,6 +30,8 @@
     "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
   },
   "energy": {
-    "batteries": ["OTHER"]
+    "batteries": [
+      "OTHER"
+    ]
   }
 }

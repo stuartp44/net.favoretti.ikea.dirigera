@@ -4,9 +4,17 @@
   },
   "class": "light",
   "capabilities": [
-    "onoff",
-    "dim"
+    "light_saturation",
+    "light_temperature",
+    "dim",
+    "light_hue",
+    "onoff"
   ],
+  "capabilitiesOptions": {
+    "dim": {
+      "duration": true
+    }
+  },
   "pair": [
     {
       "id": "list_devices",

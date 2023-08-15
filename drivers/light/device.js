@@ -2,7 +2,7 @@
 
 const Homey = require('homey');
 
-// const CAPABILITIES_SET_DEBOUNCE = 100;
+const CAPABILITIES_SET_DEBOUNCE = 100;
 
 class MyDevice extends Homey.Device {
 
@@ -11,18 +11,8 @@ class MyDevice extends Homey.Device {
     await this.homey.app.connect();
     const tradfriDevice = await this.homey.app.getLight(this._tradfriInstanceId);
     this.updateCapabilities(tradfriDevice);
-    // this.registerMultipleCapabilityListener(this.getCapabilities(), this._onMultipleCapabilityListener.bind(this), CAPABILITIES_SET_DEBOUNCE);
+    this.registerMultipleCapabilityListener(this.getCapabilities(), this._onMultipleCapabilityListener.bind(this), CAPABILITIES_SET_DEBOUNCE);
     this.log(`Tradfri Light ${this.getName()} has been initialized`);
-
-    this.registerCapabilityListener('onoff', async (value) => {
-      this.log(`Setting light ${this.getName()} to ${value}`);
-      await this.homey.app.setLightState(this._tradfriInstanceId, value);
-    });
-    this.registerCapabilityListener('dim', async (value) => {
-      const lightLevel = Math.floor(value * 100);
-      this.log(`Setting light ${this.getName()} to ${lightLevel}`);
-      await this.homey.app.setLightLevel(this._tradfriInstanceId, lightLevel);
-    });
   }
 
   updateCapabilities(tradfriDevice) {
@@ -44,27 +34,38 @@ class MyDevice extends Homey.Device {
         this.setCapabilityValue('dim', tradfriDevice.attributes.lightLevel / 100)
           .catch(this.error);
       }
+
+      if (this.hasCapability('light_saturation')) {
+        this.setCapabilityValue('light_saturation', tradfriDevice.capabilities.colorSaturation / 100)
+          .catch(this.error);
+      }
+
+      if (this.hasCapability('light_hue')) {
+        this.setCapabilityValue('light_hue', tradfriDevice.capabilities.colorHue / 360)
+          .catch(this.error);
+      }
     }
   }
 
-  // _onMultipleCapabilityListener(valueObj) {
-  //   const commands = {};
-  //   for (const [key, value] of Object.entries(valueObj)) {
-  //     if (key === 'dim') {
-  //       commands['dimmer'] = value * 100;
-  //     } else if (key === 'onoff') {
-  //       commands['onOff'] = value;
-  //     } else if (key === 'light_temperature') {
-  //       commands['colorTemperature'] = value * 100;
-  //     } else if (key === 'light_hue') {
-  //       commands['hue'] = value * 360;
-  //     } else if (key === 'light_saturation') {
-  //       commands['saturation'] = value * 100;
-  //     }
-  //   }
+  async _onMultipleCapabilityListener(valueObj) {
+    const commands = {};
+    commands['id'] = this._tradfriInstanceId;
+    for (const [key, value] of Object.entries(valueObj)) {
+      if (key === 'dim') {
+        commands['lightLevel'] = value * 100;
+      } else if (key === 'onoff') {
+        commands['isOn'] = value;
+      } else if (key === 'light_temperature') {
+        commands['colorTemperature'] = value * 100;
+      } else if (key === 'light_hue') {
+        commands['colorHue'] = value * 360;
+      } else if (key === 'light_saturation') {
+        commands['colorSaturation'] = value;
+      }
+    }
 
-  //   return this.homey.app.operateLight(this._tradfriInstanceId, commands);
-  // }
+    return this.homey.app.operateLight(commands);
+  }
 
 }
 
