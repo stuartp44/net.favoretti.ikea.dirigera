@@ -8,14 +8,6 @@ class LightDriver extends Driver {
     this.log('Tradfri Light Driver has been initialized');
   }
 
-  updateCapabilities(tradfriDevice) {
-    for (const device of this.getDevices()) {
-      if (device.getData().id === tradfriDevice.instanceId) {
-        device.updateCapabilities(tradfriDevice);
-      }
-    }
-  }
-
   async onPairListDevices() {
     await this.homey.app.connect();
     const devices = [];

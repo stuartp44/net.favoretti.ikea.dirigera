@@ -28,7 +28,7 @@ class IkeaDirigeraGatewayApp extends Homey.App {
     });
 
     this._dirigera.startListeningForUpdates(async (updateEvent) => {
-      this.log(JSON.stringify(updateEvent));
+      // this.log(JSON.stringify(updateEvent));
       if (updateEvent.type === 'deviceStateChanged') {
         if (updateEvent.data.deviceType === 'blinds') {
           await this.updateBlindState(updateEvent.data.id, updateEvent.data.attributes);
@@ -79,6 +79,14 @@ class IkeaDirigeraGatewayApp extends Homey.App {
     return this._blinds;
   }
 
+  async operateBlind(details) {
+    let response;
+    if (Object.keys(details).includes('blindsTargetLevel')) {
+      response = this.homey.app.setTargetLevel(details);
+    }
+    return response;
+  }
+
   async getBlind(id) {
     this._blind = await this._dirigera.blinds.get({ id: `${id}` });
     return this._blind;
@@ -91,8 +99,8 @@ class IkeaDirigeraGatewayApp extends Homey.App {
     }
   }
 
-  async setTargetLevel(id, target) {
-    this._blind = await this._dirigera.blinds.setTargetLevel({ id: `${id}`, blindsTargetLevel: target });
+  async setTargetLevel(details) {
+    this._blind = await this._dirigera.blinds.setTargetLevel(details);
     return this._blind;
   }
 
@@ -154,6 +162,11 @@ class IkeaDirigeraGatewayApp extends Homey.App {
   async setOutletState(id, state) {
     this._outlet = await this._dirigera.outlets.setIsOn({ id: `${id}`, isOn: state });
     return this._outlet;
+  }
+
+  async getDeviceList() {
+    this._devices = await this._dirigera.devices.list();
+    return this._devices;
   }
 
 }

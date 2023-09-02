@@ -2,7 +2,7 @@
 
 const { Device } = require('homey');
 
-// const CAPABILITIES_SET_DEBOUNCE = 100;
+const CAPABILITIES_SET_DEBOUNCE = 100;
 
 class Blind extends Device {
 
@@ -14,14 +14,8 @@ class Blind extends Device {
     await this.homey.app.connect();
     const blindDevice = await this.homey.app.getBlind(this._blindInstanceId);
     this.updateCapabilities(blindDevice);
-    // this.registerMultipleCapabilityListener(this.getCapabilities(), this._onMultipleCapabilityListener.bind(this), CAPABILITIES_SET_DEBOUNCE);
+    this.registerMultipleCapabilityListener(this.getCapabilities(), this._onMultipleCapabilityListener.bind(this), CAPABILITIES_SET_DEBOUNCE);
     this.log(`Blind ${this.getName()} has been initialized`);
-
-    this.registerCapabilityListener('windowcoverings_set', async (value) => {
-      const blindPosition = Math.floor(value * 100);
-      this.log(`Setting blind ${this.getName()} to ${blindPosition}`);
-      await this.homey.app.setTargetLevel(this._blindInstanceId, blindPosition);
-    });
   }
 
   updateCapabilities(blindDevice) {
@@ -38,7 +32,7 @@ class Blind extends Device {
           .catch(this.error);
       }
       if (this.hasCapability('windowcoverings_set')) {
-        this.setCapabilityValue('windowcoverings_set', blindDevice.attributes.blindsCurrentLevel)
+        this.setCapabilityValue('windowcoverings_set', blindDevice.attributes.blindsCurrentLevel / 100)
           .catch(this.error);
       }
     }
@@ -47,13 +41,25 @@ class Blind extends Device {
   async onExternalUpdate(newstate) {
     if (newstate.blindsCurrentLevel) {
       this.log(`Setting blind to ${newstate.blindsCurrentLevel}`);
-      this.setCapabilityValue('windowcoverings_set', Math.floor(newstate.blindsCurrentLevel / 100))
+      this.setCapabilityValue('windowcoverings_set', parseFloat(newstate.blindsCurrentLevel / 100))
         .catch(this.error);
     }
   }
 
+  _onMultipleCapabilityListener(valueObj, optsObj) {
+    const commands = {};
+    commands['id'] = this._blindInstanceId;
+    for (const [key, value] of Object.entries(valueObj)) {
+      if (key === 'windowcoverings_set') {
+        this.log(`Setting blind to ${value * 100}`);
+        commands['blindsTargetLevel'] = parseFloat(value * 100);
+      }
+    }
+    return this.homey.app.operateBlind(commands);
+  }
+
   async onAdded() {
-    this.log('MyDevice has been added');
+    this.log(`Blind ${this.getName()} has been added`);
   }
 
   /**
@@ -65,7 +71,7 @@ class Blind extends Device {
    * @returns {Promise<string|void>} return a custom message that will be displayed
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    this.log('MyDevice settings where changed');
+    this.log(`Blind ${this.getName()} settings where changed`);
   }
 
   /**
@@ -74,14 +80,14 @@ class Blind extends Device {
    * @param {string} name The new name
    */
   async onRenamed(name) {
-    this.log('MyDevice was renamed');
+    this.log(`Blind ${this.getName()} was renamed`);
   }
 
   /**
    * onDeleted is called when the user deleted the device.
    */
   async onDeleted() {
-    this.log('MyDevice has been deleted');
+    this.log(`Blind ${this.getName()} has been deleted`);
   }
 
 }
