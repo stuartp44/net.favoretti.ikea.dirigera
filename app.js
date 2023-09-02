@@ -114,6 +114,8 @@ class IkeaDirigeraGatewayApp extends Homey.App {
       response = this.homey.app.setLightLevel(details);
     } if (Object.keys(details).includes('isOn')) {
       response = this.homey.app.setLightState(details);
+    } if (Object.keys(details).includes('transition')) {
+      response = this.homey.app.setLightState(details);
     }
     return response;
   }

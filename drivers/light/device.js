@@ -68,11 +68,14 @@ class Light extends Homey.Device {
     }
   }
 
-  async _onMultipleCapabilityListener(valueObj) {
+  async _onMultipleCapabilityListener(valueObj, optsObj) {
     const commands = {};
     commands['id'] = this._tradfriInstanceId;
     for (const [key, value] of Object.entries(valueObj)) {
       if (key === 'dim') {
+        if (optsObj.dim.duration !== null) {
+          commands['transitionTime'] = optsObj.dim.duration;
+        }
         commands['lightLevel'] = value * 100;
       } else if (key === 'onoff') {
         commands['isOn'] = value;
@@ -82,9 +85,8 @@ class Light extends Homey.Device {
         commands['colorHue'] = value * 360;
       } else if (key === 'light_saturation') {
         commands['colorSaturation'] = value;
-      }
+      } 
     }
-
     return this.homey.app.operateLight(commands);
   }
 
